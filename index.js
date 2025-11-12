@@ -129,9 +129,15 @@ async function run() {
     });
 
     // ! My Bookings
-    app.get("/bookings", verifyFirebaseToken, async (req, res) => {
+    app.get("/myBookings", verifyFirebaseToken, async (req, res) => {
       const email = req.query.email;
-      const query = email ? { userEmail: email } : {};
+      const query = {};
+      if (email) {
+        if (email !== req.token_email) {
+          return res.status(403).send({ message: "Forbidden Access" });
+        }
+        query.userEmail = email;
+      }
       const result = await bookingsCollection.find(query).toArray();
       res.send(result);
     });
