@@ -66,7 +66,7 @@ async function run() {
     // ! Cars Collection API
     app.get("/cars", async (req, res) => {
       const cursor = carsCollection.find();
-      const result = await cursor.toArray();
+      const result = await cursor.toArray();    
       res.send(result);
     });
 
