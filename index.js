@@ -13,8 +13,13 @@ const port = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-
-const serviceAccount = require("./car-rental-platform-sdk.json");
+// index.js
+const decoded = Buffer.from(
+  process.env.FIREBASE_SERVICE_KEY,
+  "base64"
+).toString("utf8");
+const serviceAccount = JSON.parse(decoded);
+// const serviceAccount = require("./car-rental-platform-sdk.json");
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -57,7 +62,7 @@ app.get("/", (req, res) => {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+    // await client.connect();
 
     const database = client.db("Car_Rent_Platform");
     const carsCollection = database.collection("Cars");
@@ -168,8 +173,8 @@ async function run() {
       }
     });
 
-    // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
+    // // Send a ping to confirm a successful connection
+    // await client.db("admin").command({ ping: 1 });
     console.log(
       "Pinged your deployment. You successfully connected to MongoDB!"
     );
@@ -179,6 +184,6 @@ async function run() {
 }
 run().catch(console.dir);
 
-app.listen(port, (req, res) => {
+app.listen(port, () => {
   console.log(`Smart Server is running on port ${port}`);
 });
