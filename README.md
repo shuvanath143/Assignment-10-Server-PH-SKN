@@ -1,4 +1,4 @@
-# 🌍 Digital Life Lessons Platform
+# 🌍 Car Rent Service Platform
 
 ## 📌 Project Overview
 A modern and responsive web application built to showcase car rental services for daily life uses.
