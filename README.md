@@ -1,10 +1,10 @@
 # 🌍 Digital Life Lessons Platform
 
 ## 📌 Project Overview
-A modern and responsive web application built to showcase real life lessons of users having free and premium services.
+A modern and responsive web application built to showcase car rental services for daily life uses.
 
 ## 🚀 Live Demo
-🔗 https://digital-life-lessons-skn143.web.app
+🔗 https://car-rental-platform-skn143.web.app
 
 ## 🖼 Screenshot
 <img src="screenshot.PNG" />
@@ -27,13 +27,13 @@ A modern and responsive web application built to showcase real life lessons of u
 - tailwindcss
 
 ## 🔗 Resources
-Live Site: https://digital-life-lessons-skn143.web.app
-GitHub Repo: https://github.com/shuvakumar143/Assignment-11-Client-PH-SKN.git
+Live Site: https://car-rental-platform-skn143.web.app
+GitHub Repo: https://github.com/shuvakumar143/Assignment-10-Server-PH-SKN.git
 
 ## ⚙ How to Run Locally
 Clone the repository
 ```bash
-git clone https://github.com/shuvakumar143/Assignment-11-Client-PH-SKN.git
+git clone https://github.com/shuvakumar143/Assignment-10-Server-PH-SKN.git
 npm install
 npm run dev
 Run: http://localhost:5173
