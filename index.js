@@ -65,10 +65,65 @@ async function run() {
     // await client.connect();
 
     const database = client.db("Car_Rent_Platform");
+    const usersCollection = database.collection("users");
     const carsCollection = database.collection("Cars");
     const bookingsCollection = database.collection("bookings");
 
+    const verifyAdmin = async (req, res, next) => {
+      const email = req.decoded_email;
+      const query = { email };
+      const user = await usersCollection.findOne(query);
+      //   ("Verify Admin: ", user.role);
+
+      if (!user || user.role !== "admin") {
+        return res.status(403).send({ message: "Forbidden access" });
+      }
+      next();
+    };
+
+    // ! Users Collection API
+    app.get("/checkUsers/:email", async (req, res) => {
+      const email = req.params.email;
+      //   (email);
+      const query = { email };
+      const user = await usersCollection.findOne(query);
+      return res.send(user);
+    });
+
+    app.get("/userRole/:email", verifyFirebaseToken, async (req, res) => {
+      const email = req.params.email;
+      //   (email);
+      const query = { email };
+      if (req.query.role) {
+        const user = await usersCollection.findOne(query);
+        return res.send({ role: user?.role || "user" });
+      }
+      // else res.send(user.role);
+    })
+
+    app.post("/users", async (req, res) => {
+      const user = req.body;
+      user.role = "user";
+      user.createdAt = new Date();
+
+      const email = user.email;
+      const userExists = await usersCollection.findOne({ email });
+      if (userExists) {
+        return res.send({ message: "User already exists" });
+      }
+
+      const result = await usersCollection.insertOne(user);
+      res.send(result);
+    });
+
     // ! Cars Collection API
+    app.get("/cars/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const car = await carsCollection.findOne(query);
+      res.send(car);
+    });
+
     app.get("/cars", async (req, res) => {
       const cursor = carsCollection.find();
       const result = await cursor.toArray();    
@@ -81,12 +136,7 @@ async function run() {
       res.send(result);
     });
 
-    app.get("/cars/:id", async (req, res) => {
-      const id = req.params.id;
-      const query = { _id: new ObjectId(id) };
-      const car = await carsCollection.findOne(query);
-      res.send(car);
-    });
+    
 
     app.post("/addCar", verifyFirebaseToken, async (req, res) => {
       const carData = req.body;
